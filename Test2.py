@@ -1,9 +1,19 @@
 import numpy as np
+import  cupy as cp
+import random
 
-weights = np.array([[1,5], [4,2], [3,4]])
-inputs = np.array([[1, 2], [3,4],[3,6],[4,8]])
+arr = []
 
+for i in range(32):
+    arr1 = []
+    for i in range(2):
+        arr1.append(random.random())
+    arr.append(arr1)
 
-output = np.dot(inputs, weights.T)
+weights = [[2, 3, 1], [1,2,3]]
+gpu_weights = cp.array(weights)
 
-print(output)
+print(gpu_weights.shape)
+print(cp.array(arr).shape)
+# print(cp.array(arr) @ gpu_weights)
+

@@ -1,4 +1,4 @@
-from Network import Network
+from BatchVectorization import BV_Network as Network
 import random
 import numpy as np
 from os.path import join
@@ -32,9 +32,9 @@ x_test = [np.asarray(x, dtype=float).reshape(-1) / 255.0 for x in x_test]
 y_train_targets = rep_Y(y_train)
 y_test_targets = rep_Y(y_test)
 
-epoch = 2000
+epoch = 50
 batch_samp_amount = 64
-print_every = 100
+print_every = 1
 mnist_Net = Network(784, 10, 0.1, hidden_counts=[16, 16], beta=0.9)
 print("Testing the Net before training")
 for i in range(10):
@@ -49,10 +49,9 @@ for i in range(epoch):
         batch_X = x_train[j:j+batch_samp_amount]
         batch_Y = y_train_targets[j:j+batch_samp_amount]
         
-        for k in range(len(batch_X)):
-            mnist_Net.forward_pass(batch_X[k])
-            cost += mnist_Net.get_cost(batch_Y[k])
-            mnist_Net.backward_pass(batch_Y[k])
+        mnist_Net.forward_pass(batch_X)
+        cost += mnist_Net.get_cost(batch_Y)
+        mnist_Net.backward_pass(batch_Y)
         
         current_batch_size = len(batch_X)
         mnist_Net.update_weights(current_batch_size)
@@ -60,16 +59,29 @@ for i in range(epoch):
     cost = cost / len(x_train)
     
     if i % print_every == 0 or i == epoch - 1:
-        train_accuracy = mnist_Net.get_accuracy(x_train, y_train_targets)
-        val_accuracy = mnist_Net.get_accuracy(x_test, y_test_targets)
-        dead_neurons = mnist_Net.get_dead_neurons(x_train)
+        # train_accuracy = mnist_Net.get_accuracy(x_train, y_train_targets)
+        # val_accuracy = mnist_Net.get_accuracy(x_test, y_test_targets)
+        # dead_neurons = mnist_Net.get_dead_neurons(x_train)
         print(
             f"Batch #{i} finished, Cost = {cost:.6f}, "
-            f"Train Acc = {train_accuracy:.2%}, "
-            f"Val Acc = {val_accuracy:.2%}, "
-            f"Dead hidden neurons = {dead_neurons}"
+            # f"Train Acc = {train_accuracy:.2%}, "
+            # f"Val Acc = {val_accuracy:.2%}, "
+            # f"Dead hidden neurons = {dead_neurons}"
         )
 
-    newX, newY = shuffle(x_train, y_train_targets)
-    x_train = newX
-    y_train_targets = newY
+# ... (your existing code above) ...
+
+# After training
+print("\n" + "="*50)
+print("TRAINING COMPLETE!")
+print("="*50)
+
+# Test on a few examples
+for i in range(10):
+    predicted = mnist_Net.forward_pass(x_test[i])
+    predicted_label = int(np.argmax(predicted))
+    print(f"Test image {i}: Predicted {predicted_label}, Actual {y_test[i]}")
+
+# Launch the drawing application
+from MnistDrawingApp import launch_drawing_app  # Save the above code in drawing_app.py
+launch_drawing_app(mnist_Net)
