@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import numpy as np
+import cupy as cp  # Add this import!
 from PIL import Image, ImageDraw
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -142,10 +143,16 @@ class MNISTDrawingApp:
             label.config(text="0%")
     
     def preprocess_drawing(self):
-        """Convert drawing to format expected by network"""
+        """Convert drawing to format expected by network (returns CuPy array)"""
         # Normalize to [0, 1] range and reshape to 784-dim vector
         normalized = self.drawing_grid / 255.0
-        return normalized.flatten()
+        flattened = normalized.flatten().astype(np.float32)
+        
+        # Convert to CuPy array and add batch dimension
+        gpu_array = cp.array(flattened)  # Shape: (784,)
+        gpu_array = gpu_array.reshape(1, -1)  # Shape: (1, 784)
+        
+        return gpu_array
     
     def predict_digit(self):
         """Run forward pass through the network and display prediction"""
@@ -155,15 +162,18 @@ class MNISTDrawingApp:
             self.status_bar.config(text="Error: No digit detected")
             return
         
-        # Preprocess drawing
+        # Preprocess drawing (now returns CuPy array)
         input_vector = self.preprocess_drawing()
         
-        # Get prediction from network
+        # Get prediction from network (input is already on GPU)
         output = self.net.forward_pass(input_vector)
         
+        # Convert output from GPU to CPU for processing
+        output_cpu = cp.asnumpy(output)
+        
         # Get predicted digit
-        predicted_digit = int(np.argmax(output))
-        confidence = float(output[predicted_digit]) * 100
+        predicted_digit = int(np.argmax(output_cpu))
+        confidence = float(output_cpu[0, predicted_digit]) * 100
         
         # Update prediction label
         self.prediction_label.config(
@@ -173,7 +183,7 @@ class MNISTDrawingApp:
         
         # Update confidence bars
         for i, (bar, label) in enumerate(zip(self.confidence_bars, self.confidence_labels)):
-            prob = float(output[i]) * 100
+            prob = float(output_cpu[0, i]) * 100
             bar['value'] = prob
             label.config(text=f"{prob:.1f}%")
             
@@ -222,12 +232,3 @@ def launch_drawing_app(network):
     app.reset_canvas()
     
     root.mainloop()
-
-# Modified main execution code
-if __name__ == "__main__":
-    # Your existing training code here...
-    # ... (load data, train network) ...
-    
-    # After training is complete, launch the drawing app
-    print("\nTraining complete! Launching drawing application...")
-    launch_drawing_app(mnist_Net)
