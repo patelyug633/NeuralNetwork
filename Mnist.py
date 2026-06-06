@@ -38,7 +38,7 @@ x_test = cp.array(x_test)
 y_train_targets = cp.array(y_train_targets)
 y_test_targets = cp.array(y_test_targets)
 
-epoch = 500
+epoch = 50
 batch_samp_amount = 64
 print_every = 1
 mnist_Net = Network(784, 10, 10, hidden_counts=[16, 16], beta=0.9)
