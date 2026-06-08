@@ -106,5 +106,6 @@ class BV_Network:
         cost = -cp.sum(actual_values * cp.log(predicted + 1e-8)) / actual_values.shape[0]  # Cross-entropy loss
         return cost
     
+    #Dangerous, Forgets all training 
     def change_batch_size(self, new_size):
         self.__init__(self.input_size, self.output_size, new_size, self.hidden_counts, self.beta)
