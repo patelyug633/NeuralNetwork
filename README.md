@@ -238,23 +238,48 @@ By transitioning from a sequential model to a batch-vectorized GPU system, the p
 ## Project Structure
 
 ```
-Neural-Network-From-Scratch/
+NeuralNetwork/
+
 │
-├── Notes/
-|   ├── (Notes I took while building this Project)
-├── Sequential/
-│   ├── Layer.py
-│   ├── Network.py
-│   └── AND.py
+├── README.md
+├── requirements.txt
+├── .gitignore
 │
-├── BatchVectorized_version/
-|   ├── MNISTData
-│   ├── Batchvectorization.py
-│   ├── Mnist.py
-│   └── MnistDrawingApp.py
+├── src/
+│   ├── BatchVectorized/
+│   │   ├── BatchVectorization.py
+│   │   ├── Mnist.py
+│   │   ├── Mnist1.py
+│   │   ├── MnistLoader.py
+│   │   └── MnistDrawingApp.py
+│   │
+│   └── Sequential/
+│       ├── Network.py
+│       ├── Layers.py
+│       └── AND.py
 │
-└── README.md
+├── assets/
+│   ├── notes/
+        ├── (Notes I took during building this project)
+    ├── gui/
+        ├── (Screenshots of my mnistdrawing app connected to the network predicting the digits)
+│   
+│
+└── data/
+    └── README.md
 ```
+
+## Dataset
+
+Download the MNIST dataset and place the files in:
+
+src/BatchVectorized_version/MnistData/
+
+Required files:
+- train-images-idx3-ubyte
+- train-labels-idx1-ubyte
+- t10k-images-idx3-ubyte
+- t10k-labels-idx1-ubyte
 
 ---
 
