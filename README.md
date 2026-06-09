@@ -233,7 +233,7 @@ During training I recorded both loss values and average gradient magnitudes.
 
 The loss curve decreases consistently while gradient magnitudes remain active throughout training, indicating stable optimization and continued learning signal propagation.
 
-![Training Curves](assets/training/mnist_training_curves.png)
+![Training Curves](assets/training/mnist_neural_network_training.png)
 
 ---
 
@@ -250,7 +250,7 @@ Features:
 
 Example:
 
-![GUI Demo](assets/gui/digit_prediction_demo.png)
+![GUI Demo](assets/gui/Screenshot 2026-06-04 232725.png)
 
 ---
 
