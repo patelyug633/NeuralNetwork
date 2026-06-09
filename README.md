@@ -278,13 +278,23 @@ NeuralNetwork/
 │
 ├── assets/
 │   ├── training/
-│   │   └── mnist_training_curves.png
+|       ├── Acc.png
+│   │   └── mnist_neural_network_training.png
 │   │
 │   ├── gui/
-│   │   └── digit_prediction_demo.png
-│   │
+|       ├── Prid0.png
+|       ├── Prid1.png
+|       ├── Prid2.png
+|       ├── Prid3.png
+|       ├── Prid4.png
+|       ├── Prid5.png
+|       ├── Prid6.png
+|       ├── Prid7.png
+|       ├── Prid8.png
+|       └── Prid9.png
 │   └── notes/
-│       └── development_notes/
+│       ├── development_notes
+|       └──README.md
 │
 └── data/
     └── README.md
