@@ -288,4 +288,4 @@ Required files:
 Yug J. Patel. 
 Computer Science student exploring deep learning from first principles.
 
-GitHub: (add your link here)
+GitHub: [Yug patel's Repositaries](https://github.com/patelyug633?tab=repositories)
