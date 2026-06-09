@@ -2,6 +2,15 @@
 
 ### Sequential Backpropagation → Batch-Vectorized GPU Neural Network
 
+## Live Proof
+
+- 🧠 Trained model: 95.31% accuracy on MNIST
+- 🎨 Real-time digit drawing GUI inference
+- ⚡ GPU-accelerated training with CuPy
+- 📉 Training visualization (loss + gradient flow)
+
+---
+
 ## Project Highlights
 
 * Built a neural network framework entirely from scratch using Python
