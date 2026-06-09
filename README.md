@@ -250,7 +250,7 @@ Features:
 
 Example:
 
-![GUI Demo](assets/gui/Screenshot 2026-06-04 232725.png)
+![GUI Demo](assets/gui/Prid8.png)
 
 ---
 
