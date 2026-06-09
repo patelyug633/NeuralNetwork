@@ -18,5 +18,5 @@ Training:
 
 Performance:
 
-- Test Accuracy: XX%
+- Test Accuracy: 95.31%
 - GPU Accelerated with CuPy
