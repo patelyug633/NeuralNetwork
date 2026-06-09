@@ -9,6 +9,7 @@ from Mnistloader import MnistDataloader
 import matplotlib.pyplot as plt
 from collections import deque
 import time
+from pathlib import Path
 
 def shuffle(X_train, Y_train):
     inds = [i for i in range(len(X_train))]
@@ -117,7 +118,8 @@ class TrainingVisualizer:
         return filename
 
 # Load data
-input_path = 'C:\\Users\\patel\\Desktop\\Projects\\NeuralNetwork\\MnistData'
+BASE_DIR = Path(__file__).resolve().parent
+input_path = BASE_DIR / "MnistData"
 training_images_filepath = join(input_path, 'train-images-idx3-ubyte/train-images-idx3-ubyte')
 training_labels_filepath = join(input_path, 'train-labels-idx1-ubyte/train-labels-idx1-ubyte')
 test_images_filepath = join(input_path, 't10k-images-idx3-ubyte/t10k-images-idx3-ubyte')

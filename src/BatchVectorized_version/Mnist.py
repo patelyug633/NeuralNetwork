@@ -4,6 +4,7 @@ import numpy as np
 import cupy as cp
 from os.path import join
 from Mnistloader import MnistDataloader
+from pathlib import Path
 
 def shuffle(X_train, Y_train):
     inds = [i for i in range(len(X_train))]
@@ -16,7 +17,8 @@ def rep_Y(Y_train):
     for y in Y_train:
         newY.append(np.array([1 if i == y else 0 for i in range(10)]))
     return newY
-input_path = 'C:\\Users\\patel\\Desktop\\Projects\\NeuralNetwork\\MnistData'
+BASE_DIR = Path(__file__).resolve().parent
+input_path = BASE_DIR / "MnistData"
 training_images_filepath = join(input_path, 'train-images-idx3-ubyte/train-images-idx3-ubyte')
 training_labels_filepath = join(input_path, 'train-labels-idx1-ubyte/train-labels-idx1-ubyte')
 test_images_filepath = join(input_path, 't10k-images-idx3-ubyte/t10k-images-idx3-ubyte')
