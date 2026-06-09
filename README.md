@@ -169,6 +169,19 @@ model.update_weights(learning_rate=0.01)
 
 ---
 
+## Training Dynamics
+
+During training, I recorded both:
+
+- Cross-Entropy Loss
+- Average Gradient Magnitude
+
+The loss curve demonstrates successful optimization, while the gradient magnitude plot shows that learning signals continue propagating through the network during training.
+
+![Training Curves](assets\training\mnist_neural_network_training.png)
+
+---
+
 ## Results
 
 * Successfully learns MNIST digit classification
