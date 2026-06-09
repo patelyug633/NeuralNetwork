@@ -1,259 +1,264 @@
-# Neural Network from Scratch (Sequential → Batch-Vectorized GPU Implementation)
+# Neural Network From Scratch
 
-## Overview
+### Sequential Backpropagation → Batch-Vectorized GPU Neural Network
 
-This project is a custom neural network framework built entirely from scratch in Python to deeply understand how neural networks work at a fundamental level.
+## Project Highlights
 
-The project evolved in two major stages:
-
-1. **Sequential Neural Network (Initial Prototype)**
-2. **Batch-Vectorized GPU-Accelerated Neural Network (Optimized Version)**
-
-This evolution highlights an important real-world machine learning insight:
-
-> Correct implementations are not always efficient implementations.
-
-The final system supports MNIST digit classification using GPU acceleration via CuPy and mini-batch training.
+* Built a neural network framework entirely from scratch using Python
+* Implemented forward propagation and backpropagation manually
+* Started with a sequential educational implementation using NumPy
+* Redesigned the framework into a batch-vectorized GPU implementation using CuPy
+* Implemented ReLU, Softmax, Cross-Entropy Loss, He Initialization, and Momentum SGD
+* Trained on the MNIST handwritten digit dataset
+* Achieved **95.31% test accuracy**
+* Built an interactive digit drawing application for real-time inference
 
 ---
 
-## Key Features
+## Overview
 
-### Core Neural Network Implementation
+This project was created to understand neural networks from first principles rather than relying on existing deep learning frameworks.
 
-* Fully custom feedforward neural network (no PyTorch / TensorFlow)
-* Multi-layer perceptron support
-* Manual forward and backward propagation
-* ReLU activation (hidden layers)
-* Softmax activation (output layer)
-* Cross-entropy loss
+Instead of using PyTorch or TensorFlow, every major component was implemented manually, including:
 
-### Training Capabilities
+* Feedforward computation
+* Backpropagation
+* Gradient calculation
+* Weight updates
+* Activation functions
+* Loss functions
+* Mini-batch training
+
+The project evolved through two major implementations:
+
+1. A fully sequential neural network written with NumPy
+2. A batch-vectorized GPU-accelerated neural network written with CuPy
+
+The transition between these two versions became one of the most valuable lessons of the project:
+
+> A neural network can be mathematically correct while still being computationally impractical.
+
+---
+
+# Why I Built This
+
+My original goal was simple:
+
+> Understand exactly how neural networks learn.
+
+I started by building a neural network from scratch using only NumPy. The first version successfully learned simple tasks such as the AND logic gate and proved that my implementation of backpropagation was correct.
+
+However, when I attempted to scale the network to the MNIST handwritten digit dataset, training became extremely slow.
+
+At that point I encountered a common engineering problem:
+
+The implementation was correct, but it was not efficient.
+
+Rather than abandoning the project, I investigated how modern machine learning systems achieve their performance and discovered the importance of:
+
+* Matrix vectorization
+* Mini-batch processing
+* GPU acceleration
+* Efficient gradient computation
+
+This led me to redesign the framework from the ground up.
+
+The final result was a batch-vectorized neural network capable of training on MNIST using GPU acceleration while preserving the same underlying mathematical principles as the original implementation.
+
+---
+
+# Features
+
+## Neural Network Components
+
+* Fully connected feedforward architecture
+* Multiple hidden layers
+* ReLU activation
+* Softmax output layer
+* Cross-Entropy loss
+* He weight initialization
+* Momentum optimization
+
+## Training Features
 
 * Mini-batch gradient descent
-* Momentum-based optimization
-* He initialization for stable training
 * GPU acceleration using CuPy
+* Batch-vectorized forward propagation
+* Batch-vectorized backpropagation
+* Real-time training visualization
 
-### Applied Functionality
+## Applications
 
 * MNIST handwritten digit classification
-* Real-time digit drawing interface for inference
-* End-to-end training pipeline
+* Interactive digit drawing GUI
+* Real-time model inference
 
 ---
 
 # Project Evolution
 
-## Phase 1: Sequential Neural Network (Initial Implementation)
+## Phase 1 — Sequential Implementation
 
-The first version of this project implemented a fully sequential neural network using NumPy.
+The first implementation focused entirely on correctness.
 
-Each training sample was processed individually:
+Each sample was processed independently:
 
-* Forward propagation per sample
-* Backpropagation per sample
-* Weight updates after full dataset iteration
+1. Forward pass
+2. Cost calculation
+3. Backpropagation
+4. Gradient accumulation
+5. Weight update
 
-### Example Use Case
+This version was invaluable for understanding:
 
-The sequential model was successfully trained on simple logic tasks such as the AND gate, demonstrating correctness of backpropagation and learning behavior.
+* Chain rule applications
+* Backpropagation mechanics
+* Gradient flow
+* Neural network architecture
 
-### Limitations Discovered
+### Example
 
-During scaling attempts, several major limitations were observed:
+The network successfully learned logical operations such as the AND gate.
 
-* Extremely slow training speed
-* No vectorization or matrix optimization
-* Poor hardware utilization
+### Limitations
+
+While mathematically correct, several bottlenecks quickly appeared:
+
+* Slow training speed
+* No vectorization
+* Poor CPU utilization
 * Inefficient gradient computation
-* Not scalable to datasets like MNIST
-
-This phase was critical in validating correctness but exposed performance bottlenecks.
+* Inability to scale effectively to larger datasets
 
 ---
 
-## Phase 2: Batch-Vectorized Neural Network (Optimization Phase)
+## Phase 2 — Batch Vectorized GPU Implementation
 
-To address performance limitations, the architecture was redesigned to support batch-based computation and GPU acceleration.
+To overcome these limitations, the framework was redesigned around matrix operations.
 
-### Key Improvements
+### Major Improvements
 
-* Mini-batch training instead of single-sample updates
-* Fully vectorized matrix operations using CuPy
-* GPU acceleration via CUDA
-* Momentum-based optimization (stable convergence)
-* Efficient gradient aggregation across batches
+* Mini-batch training
+* Vectorized forward propagation
+* Vectorized backpropagation
+* GPU acceleration through CuPy
+* Momentum-based optimization
 
 ### Result
 
-The system was successfully scaled to train on the MNIST dataset with significantly improved performance.
+Training performance improved dramatically while preserving the same underlying learning algorithm.
+
+This redesign transformed the project from a learning prototype into a practical machine learning system.
 
 ---
 
-## Key Technical Insight
+# Architecture
 
-A major takeaway from this project:
-
-> A neural network can be mathematically correct but computationally unusable without proper vectorization.
-
-This project demonstrates the transition from:
-
-* **Correct but slow implementation**
-  → to
-* **Optimized, scalable deep learning system**
-
----
-
-## Architecture
-
-### BV_Layer (Batch Vectorized Layer)
-
-Handles:
-
-* Forward propagation (`matmul + activation`)
-* Backpropagation (vectorized gradient computation)
-* Momentum storage
-* Batch-based delta computation
-
-### BV_Network
+## BV_Layer
 
 Responsible for:
 
-* Layer orchestration
-* Forward pass pipeline
-* Backward propagation chain rule implementation
+* Matrix-based forward propagation
+* ReLU and Softmax activations
+* Delta computation
+* Gradient computation
+* Momentum storage
+
+## BV_Network
+
+Responsible for:
+
+* Layer management
+* Forward pass execution
+* Backward propagation
+* Cost calculation
 * Weight updates
-* Loss computation
 
 ---
 
-## Training Pipeline (MNIST)
+# MNIST Training Pipeline
 
-### Preprocessing
+## Data Preprocessing
 
-* Images flattened to 784-dimensional vectors
-* Normalization (0–1 scaling)
-* One-hot encoding of labels
+* Flatten 28×28 images into 784-dimensional vectors
+* Normalize pixel values to [0,1]
+* Convert labels into one-hot encoded vectors
 
-### Training Loop
+## Training Procedure
 
 1. Shuffle dataset
-2. Split into mini-batches
-3. Forward pass (GPU-accelerated)
-4. Compute cross-entropy loss
-5. Backpropagation across layers
-6. Update weights using momentum SGD
+2. Create mini-batches
+3. Forward pass
+4. Cross-entropy loss computation
+5. Backpropagation
+6. Momentum weight updates
+7. Repeat for all epochs
 
 ---
 
-## Example Usage
+# Results
 
-```python
-from Batchvectorization import BV_Network
+## Dataset
 
-model = BV_Network(
-    input_size=784,
-    output_size=10,
-    batch_size=64,
-    hidden_counts=[16, 16],
-    beta=0.9
-)
+MNIST Handwritten Digits
 
-output = model.forward_pass(batch_X)
-loss = model.get_cost(batch_Y)
+## Model Architecture
 
-model.backward_pass(batch_Y)
-model.update_weights(learning_rate=0.01)
-```
+784 → 16 → 16 → 10
 
----
+## Hyperparameters
 
-## Training Dynamics
+| Parameter         | Value         |
+| ----------------- | ------------- |
+| Batch Size        | 64            |
+| Learning Rate     | 0.01          |
+| Activation        | ReLU          |
+| Output Activation | Softmax       |
+| Loss Function     | Cross Entropy |
+| Optimizer         | Momentum SGD  |
 
-During training, I recorded both:
+## Performance
 
-- Cross-Entropy Loss
-- Average Gradient Magnitude
-
-The loss curve demonstrates successful optimization, while the gradient magnitude plot shows that learning signals continue propagating through the network during training.
-
-![Training Curves](assets\training\mnist_neural_network_training.png)
+| Metric        | Value  |
+| ------------- | ------ |
+| Test Accuracy | 95.31% |
+| Hardware      | GPU    |
+| Backend       | CuPy   |
 
 ---
 
-## Results
+# Training Dynamics
 
-* Successfully learns MNIST digit classification
-* Loss decreases consistently during training
-* Significant performance improvement over sequential version
-* Demonstrates generalization to unseen test data
+During training I recorded both loss values and average gradient magnitudes.
 
----
+The loss curve decreases consistently while gradient magnitudes remain active throughout training, indicating stable optimization and continued learning signal propagation.
 
-## Interactive Feature
-
-The project includes a **real-time digit drawing application**:
-
-* Users can draw digits on a canvas
-* The model predicts the digit in real time
-* Demonstrates practical inference capability beyond training
+![Training Curves](assets/training/mnist_training_curves.png)
 
 ---
 
-## Limitations
+# Interactive Digit Recognition App
 
-* No automatic differentiation engine
-* Limited to fully connected networks (no CNN support yet)
-* Requires GPU (CuPy) for optimal performance
-* No model serialization (save/load not implemented yet)
-* Manual gradient computation only
+The project includes a graphical application that allows users to draw digits directly onto a canvas.
 
----
+Features:
 
-## What This Project Demonstrates
+* Draw digits using a mouse
+* Real-time digit prediction
+* Confidence scores for all classes
+* Visualization of network input
 
-This project demonstrates understanding of:
+Example:
 
-* Neural network fundamentals from first principles
-* Backpropagation and gradient computation
-* Batch vectorization and performance optimization
-* GPU-accelerated machine learning pipelines
-* Real-world dataset training (MNIST)
-* Engineering tradeoffs between correctness and efficiency
+![GUI Demo](assets/gui/digit_prediction_demo.png)
 
 ---
 
-## Key Learning Outcome
+# Project Structure
 
-This project evolved through a critical engineering realization:
-
-> Early correct implementations are often not scalable implementations.
-
-By transitioning from a sequential model to a batch-vectorized GPU system, the project demonstrates both:
-
-* Theoretical correctness (learning capability)
-* Practical scalability (performance optimization)
-
----
-
-## Future Improvements
-
-* Add convolutional neural network (CNN) support
-* Implement model saving/loading (serialization)
-* Build automatic differentiation engine (experimental)
-* Improve drawing app preprocessing pipeline
-* Add training visualization (loss/accuracy graphs)
-* Extend to more complex datasets beyond MNIST
-
----
-
-## Project Structure
-
-```
+```text
 NeuralNetwork/
 
-│
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
@@ -272,33 +277,62 @@ NeuralNetwork/
 │       └── AND.py
 │
 ├── assets/
-│   ├── notes/
-        ├── (Notes I took during building this project)
-    ├── gui/
-        ├── (Screenshots of my mnistdrawing app connected to the network predicting the digits)
-│   
+│   ├── training/
+│   │   └── mnist_training_curves.png
+│   │
+│   ├── gui/
+│   │   └── digit_prediction_demo.png
+│   │
+│   └── notes/
+│       └── development_notes/
 │
 └── data/
     └── README.md
 ```
 
-## Dataset
+---
 
-Download the [MNIST dataset](https://www.kaggle.com/datasets/hojjatk/mnist-dataset?resource=download) and place the files:
+# What This Project Demonstrates
 
-src/BatchVectorized_version/MnistData/
-
-
-Required files:
-- train-images-idx3-ubyte
-- train-labels-idx1-ubyte
-- t10k-images-idx3-ubyte
-- t10k-labels-idx1-ubyte
+* Neural network fundamentals
+* Manual backpropagation implementation
+* Matrix calculus in practice
+* Mini-batch optimization
+* GPU computing with CuPy
+* Performance engineering
+* Software refactoring and redesign
+* Training on a real-world dataset
 
 ---
 
-## Author
-Yug J. Patel. 
-Computer Science student exploring deep learning from first principles.
+# Limitations
 
-GitHub: [Yug patel's Repositories](https://github.com/patelyug633?tab=repositories)
+* No convolutional neural networks (CNNs)
+* No automatic differentiation engine
+* No model serialization
+* Limited to fully connected architectures
+* Minimal hyperparameter search
+
+---
+
+# Future Improvements
+
+* Add CNN support
+* Implement model save/load functionality
+* Add automatic differentiation
+* Extend to Fashion-MNIST and CIFAR-10
+* Add learning rate scheduling
+* Implement Adam optimizer
+* Improve GUI preprocessing pipeline
+
+---
+
+# Author
+
+Yug J. Patel
+
+Computer Science Student interested in Machine Learning, AI Systems, and Performance-Oriented Software Engineering.
+
+GitHub:
+https://github.com/patelyug633
+

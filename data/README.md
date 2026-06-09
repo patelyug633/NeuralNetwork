@@ -1,22 +1,12 @@
-## Results
+## Dataset
 
-Model Architecture:
+Download the [MNIST dataset](https://www.kaggle.com/datasets/hojjatk/mnist-dataset?resource=download) and place the files:
 
-784 → 16 → 16 → 10
+src/BatchVectorized_version/MnistData/
 
-Dataset:
 
-MNIST
-
-Training:
-
-- Batch Size: 64
-- Activation: ReLU
-- Output Activation: Softmax
-- Loss: Cross Entropy
-- Optimizer: Momentum SGD
-
-Performance:
-
-- Test Accuracy: 95.31%
-- GPU Accelerated with CuPy
+Required files:
+- train-images-idx3-ubyte
+- train-labels-idx1-ubyte
+- t10k-images-idx3-ubyte
+- t10k-labels-idx1-ubyte
