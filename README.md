@@ -8,7 +8,8 @@
 - 🎨 Real-time digit drawing GUI inference
 - ⚡ GPU-accelerated training with CuPy
 - 📉 Training visualization (loss + gradient flow)
-
+- 
+![Recognition Demo](assets/gui/Animation.gif)
 ---
 
 ## Project Highlights
